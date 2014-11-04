@@ -1,0 +1,12 @@
+--- 
+- 
+  hosts: nginx
+  gather_facts: no
+  vars:
+    service_name: nginx
+  tasks: 
+    - name: "Check if a service is running : ver 1"
+      command: /etc/init.d/nginx status
+# Below commands are not needed when playbook is execute with -v 
+#      register: status
+#    - debug: var=status

@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  tasks:
+    - name: test connection
+      setup: filter=ansible_processor
