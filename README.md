@@ -1,4 +1,4 @@
 ansible
 =======
 
-Ansible playbooks
+Ansible playbook example
