@@ -2,4 +2,4 @@
 - hosts: localhost
   tasks:
     - name: test connection
-      ping:
+      action: ping

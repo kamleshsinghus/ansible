@@ -1,0 +1,7 @@
+--- 
+  - name: "Check if a nolio service is running"
+    command: /etc/init.d/{{ item }} status
+    sudo: yes
+    with_items:
+     - NolioASAP
+     - nolioagent

@@ -1,0 +1,14 @@
+--- 
+- 
+  hosts: nolio.m
+  sudo : yes
+  gather_facts: no
+  tasks: 
+    - name: "Check if a nolio server is running"
+      command: /etc/init.d/{{ item }} status
+      with_items:
+       - nolioagent
+       - NolioASAP
+# Below commands are not needed when playbook is execute with -v 
+#      register: status
+#    - debug: var=status

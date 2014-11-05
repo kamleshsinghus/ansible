@@ -1,0 +1,17 @@
+---
+- name: Check if ngnix service is running on ngnix boxes
+  hosts: nginx_servers
+  roles:
+    - nginx
+
+- name: Check if NolioASAP and nolioagent is running on nolio boxes
+  hosts: nolio_servers
+  gather_facts: no
+  roles:
+    - nolio
+#- hosts:nolio-servers
+#  sudo: yes
+#  roles:
+#  - nolio
+  # remote_user: user
+  # sudo: yes

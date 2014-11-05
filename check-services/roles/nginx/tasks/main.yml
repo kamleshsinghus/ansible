@@ -1,0 +1,10 @@
+--- 
+
+  - name: "Check if a nginx service is running"
+    command: /etc/init.d/{{ item }} status
+    with_items: service_name
+
+  - name: "Check if path exists"
+    stat: path=/var/www/edge-app/{{ item }}/web/config/app.conf.json
+    with_items: app_name
+    register: check_path
