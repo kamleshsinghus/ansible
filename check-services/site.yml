@@ -1,4 +1,7 @@
 ---
+# Ansbile playbook to combine verifing services in two differnt family of servers checking different services
+# roles are defined for each play. For the below play, ansible will execute the yaml file located at roles\nginx\tasks\main.yml
+# If defining varibles for the roles, it's defined as the same name as that of the hosts defined here
 - name: Check if ngnix service is running on ngnix boxes
   hosts: nginx_servers
   roles:
@@ -9,9 +12,3 @@
   gather_facts: no
   roles:
     - nolio
-#- hosts:nolio-servers
-#  sudo: yes
-#  roles:
-#  - nolio
-  # remote_user: user
-  # sudo: yes

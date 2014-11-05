@@ -1,8 +1,9 @@
+#Inventory file defining the hosts and their mapping
 [nginx_servers]
 nginx.dev
 
 [nolio_servers]
-nolioserver
+n.e.egv
 
 [local]
 localhost

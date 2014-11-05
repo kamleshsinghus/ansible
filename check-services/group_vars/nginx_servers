@@ -1,3 +1,4 @@
 ---
+# Even though the file is not a yaml, you may want to include the --- at the beginning of the file
 service_name: nginx
 app_name: [ 'app1', 'app2' ]

@@ -1,5 +1,5 @@
 --- 
-
+#Play for nginx role of servers. Variables are defined for each host name file location under /group_vars/hostname
   - name: "Check if a nginx service is running"
     command: /etc/init.d/{{ item }} status
     with_items: service_name
