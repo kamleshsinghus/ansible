@@ -1,14 +1,8 @@
 [nginx_servers]
 nginx.dev
 
-[nolio.e.egv]
-207.186.203.152
-
-[nolio_servers:children]
-nolio.e.egv
-
-[nginx.dev]
-100.98.71.111
+[nolio_servers]
+nolioserver
 
 [local]
 localhost
