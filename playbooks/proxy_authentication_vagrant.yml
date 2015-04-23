@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: yes
+  sudo: yes
+  #############################################
+  # Setup the yum repo proxy authentication for vagrant environment. By default you don't have internet connection from vagrant environment. 
+  #############################################
+
+  tasks:
+    - lineinfile: dest=/etc/yum.conf regexp=^proxy_username= line="proxy_username=domai\\service.name"
+
+    - lineinfile: dest=/etc/yum.conf regexp=^proxy_password= line="proxy_password=mysecretpassword"
