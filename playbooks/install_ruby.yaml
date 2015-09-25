@@ -1,0 +1,78 @@
+# Ansible playbook to install ruby and librarian-puppet on CentOS 6.*
+# http://www.bonusbits.com/wiki/HowTo:Install_Ruby_on_CentOS
+# Perform a dry run: ansible-playbook install_ruby.yml -v --ask-sudo-pass --check
+# Known Errors: /usr/local/lib/ruby/1.9.1/yaml.rb:84:in `<top (required)>': It seems your ruby installation is missing psych (for YAML output).
+# Above error doesn't seem to cause any issue with librarian-puppet, so ignoring for now
+
+- hosts: test-node
+  sudo : yes
+  vars:
+    ruby_major_version: 1.9
+    ruby_minor_version: 3
+    ruby_package_version: p484
+    ruby_download: http://ftp.ruby-lang.org/pub/ruby/{{ruby_major_version}}/ruby-{{ruby_major_version}}.{{ruby_minor_version}}-{{ruby_package_version}}.tar.gz
+    download_folder: /usr/src
+    ruby_archive: "{{download_folder}}/ruby-{{ruby_major_version}}.{{ruby_minor_version}}-{{ruby_package_version}}.tar.gz"
+    ruby_folder: ruby-{{ruby_major_version}}.{{ruby_minor_version}}-{{ruby_package_version}}
+  tasks:
+
+    ##########
+    #
+    # Install development tools and other tools
+    #
+  - name: Install development tools
+    yum: name="@Development Tools" state=present
+
+  - name: Install Others
+    yum: name=zlib,zlib-devel,curl,curl-devel,openssl-devel,httpd-devel,apr-devel,apr-util-devel,sqlite-devel,mysql-devel,libyaml,libyaml-devel
+    ##########
+    #
+    # Remove ruby installed by yum if it exists
+    #
+  - name: Remove ruby if it's already installed
+    yum: name=ruby state=absent
+    ##########
+    #
+    # Download and compile
+    #
+  - name: Download ruby
+    command: 'wget -q -O {{ruby_archive}} {{ruby_download}} creates={{ruby_archive}}'
+
+  - name: Extract Java archive
+    command: "tar -xzf {{ruby_archive}} -C {{download_folder}} creates={{download_folder}}/{{ruby_folder}}"
+
+  - name: configure
+    command: ./configure
+    args:
+      chdir: "{{download_folder}}/{{ruby_folder}}"
+
+  - name: make
+    command: make
+    args:
+      chdir: "{{download_folder}}/{{ruby_folder}}"
+
+  - name: compile
+    command: make install
+    args:
+      chdir: "{{download_folder}}/{{ruby_folder}}"
+    ##########
+    #
+    # Create symlink to ruby and gem
+    #
+  - name: Create symlink to ruby
+    file: "state=link src=/usr/local/bin/ruby dest=/usr/bin/ruby"
+
+  - name: Remove gem if it's already installed
+    gem: name=rubygems state=absent
+
+  - name: Create symlink to ruby
+    file: "state=link src=/usr/src/ruby-1.9.3-p484/bin/gem dest=/usr/bin/gem"
+    ##########
+    #
+    # Install librarian-puppet and create a symlink for the same
+    #
+  - name: install librarian-puppet using the install gem
+    command: /usr/bin/gem install librarian-puppet -v 2.2.1
+
+  - name: Create symlink to librarian-puppet
+    file: "state=link src=/usr/local/lib/ruby/gems/1.9.1/gems/librarian-puppet-2.2.1/bin/librarian-puppet dest=/usr/bin/librarian-puppet"
